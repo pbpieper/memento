@@ -115,3 +115,26 @@ interface Line { speaker: string, text: string, anchor?: string, visual?: string
 - Auto-generated macro sections and labels
 
 For AI-powered ingestion: use `POST /generate/text` with Ollama to preprocess raw text, then feed to `parseSkitFromText()`.
+
+## Zazu project card (added 6/5) — env
+Entry = this file (auto-loaded). Rendition/Memoria app (3-day escalating retrieval).
+Run: cd here, `npm run dev` (Vite, typically http://localhost:5173). Backend = own Supabase.
+Today: just start USING it, imperfect ok. Today's deliverable: Zazu/TODAY.md.
+
+## Channel rules — READ BEFORE WRITING
+This file is the communication channel for this project. Success = NO loose files created at every turn.
+- Read this file first. Work IN the existing canonical files (one evolving file each).
+- Loose/half-formed thoughts -> Zazu/INBOX.md (or a STATUS needs-processing block). Never a new loose file, never dated copies (_YYYY-MM-DD).
+- New artifact truly needed? Give it a canonical name and note it here the same turn.
+- Full STATUS + MAP added in the Sunday rollout; the nightly plumbing pass consolidates any strays.
+
+## STATUS — 2026-06-10 consolidation audit (verified end states)
+**VERDICT: memoria-woad.vercel.app is LIVE and USABLE TODAY for the 3-day cycle.** Verified by headless render of the prod bundle: app mounts, Library + "Day 1: Familiarize" study plan + RSVP/First Letter/Fill-Blank/Free Write tools + Import/Paste all present in production.
+- **Prod deploy** = `main` @ 24ba743 (Apr 8). Local-first: all data in **localStorage on the device used** — no sync, no auth in prod. Use ONE device for a whole 3-day cycle.
+- **Supabase Shuji (prod DB, pdcrvpggskryptsdvnpe) is PAUSED/INACTIVE.** Prod app tolerates it (verified: renders with all network calls failing). Shuji-Staging active. Not blocking; decision pending (restore vs migrate to own `memoria` project — MEMORIA.md §2).
+- **`dev` branch** (892658a, Apr 16: ladder infra, fill-gap retry, auth UI, crash fixes) was **never promoted to production** — exists only as a 401-protected preview. Local tree = origin/dev per local refs.
+- ⚠ **SSH key broken on this Mac** (`git fetch` → Permission denied publickey). Blocks pushing any future work. Fix before next code change.
+- Uncommitted (benign): this file's Zazu card + `docs/` consolidation files + `_archive/` — commit when SSH fixed.
+- **Legacy** skit-trainer-one.vercel.app (+ Vercel project `skit-trainer`) = old v1, also points at paused Shuji. DUPLICATE — retire candidate, Patrick's call.
+- **Minimal path TODAY (English skit, due Sat 6/13):** open memoria-woad.vercel.app on the device he'll use all 3 days → Library → Import/Paste skit text (`SPEAKER: line` format, blank lines = chunks) → Day 1 Familiarize. Plain lines (song lyrics / poem) import fine too (parser defaults speaker to PERFORMER). **Arabic RTL display untested** — paste one stanza first to verify before committing the poem to this tool.
+- Do NOT promote dev→main mid-cycle; ship after Sunday.
