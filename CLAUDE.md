@@ -128,13 +128,11 @@ This file is the communication channel for this project. Success = NO loose file
 - New artifact truly needed? Give it a canonical name and note it here the same turn.
 - Full STATUS + MAP added in the Sunday rollout; the nightly plumbing pass consolidates any strays.
 
-## STATUS — 2026-06-10 consolidation audit (verified end states)
-**VERDICT: memoria-woad.vercel.app is LIVE and USABLE TODAY for the 3-day cycle.** Verified by headless render of the prod bundle: app mounts, Library + "Day 1: Familiarize" study plan + RSVP/First Letter/Fill-Blank/Free Write tools + Import/Paste all present in production.
-- **Prod deploy** = `main` @ 24ba743 (Apr 8). Local-first: all data in **localStorage on the device used** — no sync, no auth in prod. Use ONE device for a whole 3-day cycle.
-- **Supabase Shuji (prod DB, pdcrvpggskryptsdvnpe) is PAUSED/INACTIVE.** Prod app tolerates it (verified: renders with all network calls failing). Shuji-Staging active. Not blocking; decision pending (restore vs migrate to own `memoria` project — MEMORIA.md §2).
-- **`dev` branch** (892658a, Apr 16: ladder infra, fill-gap retry, auth UI, crash fixes) was **never promoted to production** — exists only as a 401-protected preview. Local tree = origin/dev per local refs.
-- ⚠ **SSH key broken on this Mac** (`git fetch` → Permission denied publickey). Blocks pushing any future work. Fix before next code change.
-- Uncommitted (benign): this file's Zazu card + `docs/` consolidation files + `_archive/` — commit when SSH fixed.
-- **Legacy** skit-trainer-one.vercel.app (+ Vercel project `skit-trainer`) = old v1, also points at paused Shuji. DUPLICATE — retire candidate, Patrick's call.
-- **Minimal path TODAY (English skit, due Sat 6/13):** open memoria-woad.vercel.app on the device he'll use all 3 days → Library → Import/Paste skit text (`SPEAKER: line` format, blank lines = chunks) → Day 1 Familiarize. Plain lines (song lyrics / poem) import fine too (parser defaults speaker to PERFORMER). **Arabic RTL display untested** — paste one stanza first to verify before committing the poem to this tool.
-- Do NOT promote dev→main mid-cycle; ship after Sunday.
+## STATUS — 2026-06-10 (dev promoted; verified end states)
+**6/10: dev promoted to production.** dev (892658a: ladder infra, fill-gap retry, auth UI, crash guards) merged → main @ 487ea48, pushed via HTTPS + gh credential helper, Vercel auto-deployed, **memoria-woad.vercel.app = ladder version, verified live** (200 + headless render: Library, study plan, tools, no errors). Build passes locally (`npm install --include=dev` required — machine npm config has `omit=dev`).
+- **Prod mode = local-first, intentional.** Stale `VITE_SUPABASE_*` prod env vars (pointed at paused Shuji, would have shown a dead login wall — AuthScreen has no skip) were REMOVED from Vercel production and prod redeployed. Values backed up in `.env.production.backup` (gitignored). All data in **localStorage on the device used** — no sync; use ONE device per 3-day cycle.
+- **Cross-device sync = OFF.** To enable: restore Supabase Shuji (pdcrvpggskryptsdvnpe, INACTIVE — one-step via Supabase MCP `restore_project`), re-add the two env vars from `.env.production.backup` to Vercel prod, apply `supabase/migrations/20260417000000_ladder_system.sql` (+ 20260409 deleted_at) to Shuji, redeploy. Then auth screen returns and login syncs. Alternative: point at Shuji-Staging (active; values in `.env.local`).
+- ⚠ SSH key still broken on this Mac; remote switched to HTTPS (`gh auth git-credential`) — pushes work.
+- Uncommitted (benign): `docs/` consolidation files + `_archive/` — route per channel rules later.
+- **Legacy** skit-trainer-one.vercel.app (+ Vercel project `skit-trainer`) = old v1 — retire candidate, Patrick's call.
+- **Minimal path (skit due Sat 6/13):** open memoria-woad.vercel.app on the phone he'll use all 3 days → Library → Import/Paste skit text (`SPEAKER: line`, blank lines = chunks) → Day 1 Familiarize. **Arabic RTL display untested** — paste one stanza first before committing the poem to this tool.
