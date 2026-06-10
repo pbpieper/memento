@@ -10,10 +10,26 @@ interface Props {
   children: ReactNode
 }
 
+const SKIP_KEY = 'skit-trainer:auth-skipped'
+
 export function AuthGuard({ children }: Props) {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
   const [migrating, setMigrating] = useState(false)
+  // Local-first escape hatch: never hard-block unauthenticated use
+  const [skipped, setSkipped] = useState(() => {
+    try { return localStorage.getItem(SKIP_KEY) === 'true' } catch { return false }
+  })
+
+  const handleSkip = () => {
+    try { localStorage.setItem(SKIP_KEY, 'true') } catch { /* ignore */ }
+    setSkipped(true)
+  }
+
+  const handleShowAuth = () => {
+    try { localStorage.removeItem(SKIP_KEY) } catch { /* ignore */ }
+    setSkipped(false)
+  }
 
   useEffect(() => {
     // If Supabase isn't configured, skip auth entirely (local mode)
@@ -98,9 +114,23 @@ export function AuthGuard({ children }: Props) {
     return <>{children}</>
   }
 
-  // Supabase configured but no session = show auth
+  // Supabase configured, no session, user chose local mode:
+  // render the app (ServiceProvider falls back to local services)
+  // with a small pill to come back and sign in for sync.
+  if (!session && skipped) {
+    return (
+      <>
+        {children}
+        <button className="auth-sync-pill" onClick={handleShowAuth}>
+          ☁️ Sign in to sync
+        </button>
+      </>
+    )
+  }
+
+  // Supabase configured but no session = show auth (with skip)
   if (!session) {
-    return <AuthScreen />
+    return <AuthScreen onSkip={handleSkip} />
   }
 
   // Authenticated — render app

@@ -3,7 +3,11 @@ import { signIn, signUp } from '@/services/supabase/auth'
 
 type Mode = 'signin' | 'signup'
 
-export function AuthScreen() {
+interface Props {
+  onSkip?: () => void
+}
+
+export function AuthScreen({ onSkip }: Props) {
   const [mode, setMode] = useState<Mode>('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -145,6 +149,14 @@ export function AuthScreen() {
               <button className="auth-link" onClick={() => { setMode('signin'); setError('') }}>
                 Sign in
               </button>
+            </p>
+          )}
+          {onSkip && (
+            <p className="auth-skip">
+              <button className="auth-link" onClick={onSkip}>
+                Continue without account
+              </button>
+              <span className="auth-skip-note"> — data stays on this device</span>
             </p>
           )}
         </div>

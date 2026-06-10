@@ -185,3 +185,34 @@
   font-size: 15px;
   color: var(--color-text-secondary);
 }
+
+.auth-skip {
+  margin-top: 12px;
+}
+
+.auth-skip-note {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.auth-sync-pill {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 50;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.auth-sync-pill:hover {
+  color: var(--color-green-main);
+  border-color: var(--color-green-main);
+}

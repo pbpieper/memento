@@ -41,16 +41,19 @@ ALTER TABLE public.ladder_progress ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.challenge_attempts ENABLE ROW LEVEL SECURITY;
 
 -- Policies: users manage only their own data
-CREATE POLICY IF NOT EXISTS "Users manage own ladder progress"
+-- (CREATE POLICY has no IF NOT EXISTS in Postgres; drop-then-create for idempotency)
+DROP POLICY IF EXISTS "Users manage own ladder progress" ON public.ladder_progress;
+CREATE POLICY "Users manage own ladder progress"
   ON public.ladder_progress FOR ALL
   USING (auth.uid() = user_id);
 
-CREATE POLICY IF NOT EXISTS "Users manage own challenge attempts"
+DROP POLICY IF EXISTS "Users manage own challenge attempts" ON public.challenge_attempts;
+CREATE POLICY "Users manage own challenge attempts"
   ON public.challenge_attempts FOR ALL
   USING (auth.uid() = user_id);
 
 -- Trigger: auto-update ladder_progress.updated_at on writes
-CREATE TRIGGER IF NOT EXISTS set_ladder_progress_updated_at
+CREATE OR REPLACE TRIGGER set_ladder_progress_updated_at
   BEFORE UPDATE ON public.ladder_progress
   FOR EACH ROW
   EXECUTE FUNCTION public.set_updated_at();
